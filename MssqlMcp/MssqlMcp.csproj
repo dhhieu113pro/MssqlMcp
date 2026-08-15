@@ -17,6 +17,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>MssqlMcp</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
