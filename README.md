@@ -4,6 +4,30 @@
 
 A [Model Context Protocol](https://modelcontextprotocol.io/) server for SQL Server, built with the official **MCP C# SDK 2.0** (`ModelContextProtocol`) and `Microsoft.Data.SqlClient`, over **stdio**.
 
+## Quick start with `dnx`
+
+Requires the .NET 10 SDK. Run the latest published package directly from NuGet.org:
+
+```powershell
+dnx MssqlMcp.Dnx@1.0.5 --yes
+```
+
+Configure it in your MCP client:
+
+```json
+{
+  "mcpServers": {
+    "mssql": {
+      "command": "dnx",
+      "args": ["MssqlMcp.Dnx@1.0.5", "--yes"],
+      "env": {
+        "MSSQL_CONN": "Server=localhost;Database=master;User Id=sa;Password=YourPassword;TrustServerCertificate=True"
+      }
+    }
+  }
+}
+```
+
 ## Requirements
 
 - .NET SDK 10 (for building / running from source)
@@ -94,34 +118,6 @@ command line:
 Alternatively, pass it as an arg -- but keep it to one clean array element, no surrounding quotes (a quoted or space-split value is tolerated by the server, but in the config it's a footgun).
 
 > The single-file build needs the .NET 10 runtime; the Native AOT build has no runtime dependency.
-
-## Run with `dnx`
-
-You can run the published NuGet package directly with the .NET 10 `dnx` command. No
-local clone or permanent installation is required; `dnx` downloads the package from
-NuGet.org and starts the MCP server when your MCP client launches it.
-
-The package is available at [MssqlMcp.Dnx on NuGet.org](https://www.nuget.org/packages/MssqlMcp.Dnx/).
-
-Add this server to your MCP client configuration:
-
-```json
-{
-  "mcpServers": {
-    "mssql": {
-      "command": "dnx",
-      "args": ["MssqlMcp.Dnx@1.0.4", "--yes"],
-      "env": {
-        "MSSQL_CONN": "Server=localhost;Database=master;User Id=sa;Password=YourPassword;TrustServerCertificate=True"
-      }
-    }
-  }
-}
-```
-
-Replace `1.0.4` with the release version you want. The `MSSQL_CONN` environment
-variable keeps database credentials out of the command line and is read by the
-server at startup. `dnx` is included with the .NET 10 SDK.
 
 ## Tools
 
