@@ -1,0 +1,59 @@
+name: Build and publish NuGet package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      package_version:
+        description: 'SemVer package version (leave empty to use the project version)'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore MssqlMcp/MssqlMcp.csproj
+
+      - name: Build
+        run: dotnet build MssqlMcp/MssqlMcp.csproj --configuration Release --no-restore
+
+      - name: Pack
+        run: >-
+          dotnet pack MssqlMcp/MssqlMcp.csproj
+          --configuration Release
+          --no-build
+          --output ./artifacts
+          $([[ "${GITHUB_REF_TYPE}" == "tag" ]] && echo "/p:PackageVersion=${GITHUB_REF_NAME#v}" ||
+             ([[ -n "${{ inputs.package_version }}" ]] && echo "/p:PackageVersion=${{ inputs.package_version }}" || true))
+
+      - name: NuGet login (OIDC trusted publishing)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: dhhieu113
+
+      - name: Publish to NuGet.org
+        run: >-
+          dotnet nuget push "./artifacts/*.nupkg"
+          --api-key "${{ steps.nuget-login.outputs.NUGET_API_KEY }}"
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
