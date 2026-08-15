@@ -17,6 +17,7 @@ permissions:
 jobs:
   package:
     runs-on: ubuntu-latest
+    environment: production
     permissions:
       contents: read
       id-token: write
