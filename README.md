@@ -1,5 +1,7 @@
 # MSSQL MCP Server
 
+[![NuGet version](https://img.shields.io/nuget/v/MssqlMcp.Dnx.svg)](https://www.nuget.org/packages/MssqlMcp.Dnx/)
+
 A [Model Context Protocol](https://modelcontextprotocol.io/) server for SQL Server, built with the official **MCP C# SDK 2.0** (`ModelContextProtocol`) and `Microsoft.Data.SqlClient`, over **stdio**.
 
 ## Requirements
