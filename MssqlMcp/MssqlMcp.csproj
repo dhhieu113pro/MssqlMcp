@@ -8,7 +8,7 @@
     <PublishAot>true</PublishAot>
 
     <!-- NuGet package metadata -->
-    <PackageId>MssqlMcp</PackageId>
+    <PackageId>MssqlMcp.Dnx</PackageId>
     <VersionPrefix>1.0.0</VersionPrefix>
     <Authors>MssqlMcp contributors</Authors>
     <Description>Model Context Protocol server for Microsoft SQL Server.</Description>
