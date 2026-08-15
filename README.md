@@ -28,6 +28,18 @@ Configure it in your MCP client:
 }
 ```
 
+## Tools
+
+| Tool | Description | Parameters |
+|------|-------------|------------|
+| `get_table_list` | Lists all tables in the database (base tables). | — |
+| `get_table_columns` | Gets columns of a table (or all tables), filterable by data type. Supports `schema.table` qualifiers. | `tableName`, `schemaName`, `dataType`, `precision`, `scale` (all optional) |
+| `execute_get_query_data` | Runs a `SELECT` and returns results as a Markdown table. | `query` (required) |
+| `execute_insert_update_data` | Runs `INSERT` / `UPDATE` / `DELETE` and returns the affected row count. | `query` (required) |
+| `check_slow_query` | Lists slow queries from `sys.dm_exec_query_stats`, with optional execution-time and date filters. | `minAvgExecutionTimeMs`, `startDate`, `endDate` (optional) |
+
+All tools execute against the connection string configured server-side at startup. The LLM can only pass query and filter parameters; it never sees database credentials.
+
 ## Requirements
 
 - .NET SDK 10 (for building / running from source)
@@ -119,19 +131,9 @@ Alternatively, pass it as an arg -- but keep it to one clean array element, no s
 
 > The single-file build needs the .NET 10 runtime; the Native AOT build has no runtime dependency.
 
-## Tools
+## License
 
-| Tool | Description | Parameters |
-|------|-------------|------------|
-| `get_table_list` | Lists all tables in the database (base tables). | — |
-| `get_table_columns` | Gets columns of a table (or all tables), filterable by data type, precision, scale. Supports `schema.table` qualifiers. | `tableName`, `schemaName`, `dataType`, `precision`, `scale` (all optional) |
-| `execute_get_query_data` | Runs a `SELECT` and returns results as a Markdown table. | `query` (required) |
-| `execute_insert_update_data` | Runs `INSERT` / `UPDATE` / `DELETE` and returns the affected row count. | `query` (required) |
-| `check_slow_query` | Lists slow queries from `sys.dm_exec_query_stats` (execution time, CPU, logical reads), filtered by minimum average execution time and optional date range. | `minAvgExecutionTimeMs` (default 1000), `startDate`, `endDate` (optional) |
-
-### Security note
-
-All tools execute against the connection string configured server-side at startup. The LLM can only pass `query` / filter parameters — it never sees database credentials.
+This project is licensed under the [MIT License](LICENSE).
 
 
 
